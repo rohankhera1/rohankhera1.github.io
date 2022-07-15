@@ -21,9 +21,9 @@ const material = new THREE.MeshNormalMaterial( );
 const torus = new THREE.Mesh( geometry, material );
 
 const ringgeometry = new THREE.RingGeometry( 5, 7, 32 );
-// const ringwireframe = new THREE.WireframeGeometry( ringgeometry );
+const ringwireframe = new THREE.WireframeGeometry( ringgeometry );
 const ringmaterial = new THREE.MeshBasicMaterial( { color: 0x800000, side: THREE.DoubleSide } );
-const line = new THREE.LineSegments( ringgeometry, ringmaterial );
+const line = new THREE.LineSegments( ringwireframe, ringmaterial );
 scene.add( line );
 
 const schoolgeometry = new THREE.CylinderGeometry(2, 2, .5);
@@ -31,6 +31,56 @@ const schoolTexture = new THREE.TextureLoader().load('school.jpg');
 const schoolmaterial = new THREE.MeshBasicMaterial({ map: schoolTexture });
 const school = new THREE.Mesh( schoolgeometry, schoolmaterial );
 scene.add( school );
+
+const chessgeometry = new THREE.BoxGeometry( 3, 3, .1, 100 );
+const boardTexture = new THREE.TextureLoader().load('chess.jpg');
+const boardmaterial = new THREE.MeshBasicMaterial({ map: boardTexture });
+const board = new THREE.Mesh( chessgeometry, boardmaterial );
+scene.add( board );
+
+const pawnheadgeometry = new THREE.SphereGeometry( .2, 30, 30 );
+const pawnTexture = new THREE.TextureLoader().load('wood.jpg');
+const pawnheadmaterial = new THREE.MeshBasicMaterial( { map: pawnTexture } );
+const pawnhead = new THREE.Mesh( pawnheadgeometry, pawnheadmaterial );
+
+board.add(pawnhead);
+
+const pawnbasegeometry = new THREE.ConeGeometry( .2, 1, 24, 16 );
+const pawnbasematerial = new THREE.MeshBasicMaterial( { map: pawnTexture } );
+const pawnbase = new THREE.Mesh( pawnbasegeometry, pawnbasematerial );
+
+board.add(pawnbase);
+
+const pawnheadgeometry2 = new THREE.SphereGeometry( .2, 30, 30 );
+const pawnTexture2 = new THREE.TextureLoader().load('wood2.jpg');
+const pawnheadmaterial2 = new THREE.MeshBasicMaterial( { map: pawnTexture2 } );
+const pawnhead2 = new THREE.Mesh( pawnheadgeometry2, pawnheadmaterial2 );
+
+board.add(pawnhead2);
+
+const pawnbasegeometry2 = new THREE.ConeGeometry( .2, 1, 24, 16 );
+const pawnbasematerial2 = new THREE.MeshBasicMaterial( { map: pawnTexture2 } );
+const pawnbase2 = new THREE.Mesh( pawnbasegeometry2, pawnbasematerial2 );
+
+board.add(pawnbase2);
+
+board.position.setZ(15);
+board.position.setX(-15);
+
+pawnhead.position.z = 1;
+pawnhead.position.y = .5;
+pawnhead.position.x = -.5;
+
+pawnbase.position.z = 1;
+pawnbase.position.x = -.5;
+
+pawnhead2.position.z = -2;
+pawnhead2.position.y = .1;
+pawnhead2.position.x = -.3;
+
+pawnbase2.position.z = -2;
+pawnhead2.position.y = .5;
+pawnbase2.position.x = -.3;
 
 school.position.setZ(10);
 school.position.setX(-11);
@@ -159,6 +209,8 @@ function animate() {
   line.rotation.z += 0.01;
   school.rotation.y += 0.01;
   // controls.update();
+
+  board.rotation.y += .004;
 
   renderer.render(scene, camera);
 }
